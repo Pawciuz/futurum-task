@@ -1,0 +1,143 @@
+<form [formGroup]="campaignForm" (ngSubmit)="onSubmit($event)" class="space-y-4">
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Nazwa</span>
+      <input
+        formControlName="name"
+        type="text"
+        class="block w-full border-gray-300 rounded mt-1"
+      />
+      <div
+        *ngIf="campaignForm.get('name')?.invalid && campaignForm.get('name')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Nazwa kampanii jest wymagana
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Słowa kluczowe</span>
+      <select
+        formControlName="keywords"
+        class="block w-full border-gray-300 rounded mt-1"
+        multiple
+      >
+        <option *ngFor="let keyword of keywords" [value]="keyword">{{ keyword }}</option>
+      </select>
+      <div
+        *ngIf="campaignForm.get('keywords')?.invalid && campaignForm.get('keywords')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Podaj co najmniej jedno słowo kluczowe
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Kwota oferty</span>
+      <input
+        formControlName="bidAmount"
+        type="number"
+        class="block w-full border-gray-300 rounded mt-1"
+      />
+      <div
+        *ngIf="campaignForm.get('bidAmount')?.invalid && campaignForm.get('bidAmount')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Kwota oferty musi być większa od zera
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Budżet</span>
+      <input
+        formControlName="campaignFund"
+        type="number"
+        class="block w-full border-gray-300 rounded mt-1"
+      />
+      <div
+        *ngIf="campaignForm.get('campaignFund')?.invalid && campaignForm.get('campaignFund')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Budżet musi być większy od zera
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Status</span>
+      <select
+        formControlName="status"
+        class="block w-full border-gray-300 rounded mt-1"
+      >
+        <option value="on">Aktywny</option>
+        <option value="off">Nieaktywny</option>
+      </select>
+      <div
+        *ngIf="campaignForm.get('status')?.invalid && campaignForm.get('status')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Wybierz status kampanii
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Miasto</span>
+      <select
+        formControlName="town"
+        class="block w-full border-gray-300 rounded mt-1"
+      >
+        <option *ngFor="let town of towns" [value]="town">{{ town }}</option>
+      </select>
+      <div
+        *ngIf="campaignForm.get('town')?.invalid && campaignForm.get('town')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Wybierz miasto
+      </div>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="block">
+      <span class="text-gray-700">Promień (km)</span>
+      <input
+        formControlName="radius"
+        type="number"
+        class="block w-full border-gray-300 rounded mt-1"
+      />
+      <div
+        *ngIf="campaignForm.get('radius')?.invalid && campaignForm.get('radius')?.touched"
+        class="text-red-500 text-sm"
+      >
+        Promień musi być większy od zera
+      </div>
+    </label>
+  </div>
+
+  <div class="flex justify-end space-x-2">
+    <button
+      type="button"
+      class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+      (click)="cancel.emit()"
+    >
+      Anuluj
+    </button>
+    <button
+      type="submit"
+      [disabled]="campaignForm.invalid || campaignForm.untouched"
+      [ngClass]="{ 'bg-blue-300': campaignForm.invalid || campaignForm.untouched, 'bg-blue-600': !campaignForm.invalid }"
+      class="bg-blue-600 text-white px-4 py-2 rounded "
+    >
+      Zapisz
+    </button>
+  </div>
+</form>

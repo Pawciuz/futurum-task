@@ -1,0 +1,36 @@
+<div class="bg-white shadow-md rounded-lg p-4 mb-4 border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+  <div class="flex justify-between items-start mb-3">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800 flex flex-row items-center gap-2">{{ campaign.name }}<p class="text-sm text-gray-500 " [ngClass]="{'text-green-400':campaign.status == 'on','text-red-400':campaign.status == 'off'}">O</p></h3>
+
+      <p class="text-sm text-gray-500">Miasto: {{ campaign.town }} </p>
+
+      <p class="text-sm text-gray-500">Zasięg: {{campaign.radius}} km </p>
+    </div>
+    <div class="flex space-x-2">
+      <button
+        (click)="onEdit.emit(campaign)"
+        class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+      >
+        Edytuj
+      </button>
+      <button
+        (click)="onDelete.emit(campaign)"
+        class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+      >
+        Usuń
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2 text-sm">
+    <div>
+      <p class="text-gray-600">Budżet:</p>
+      <p class="font-medium">{{ campaign.campaignFund }} PLN</p>
+    </div>
+    <div *ngIf="campaign.keywords && campaign.keywords.length">
+      <p class="text-gray-600">Słowa kluczowe:</p>
+      <p class="truncate">{{ campaign.keywords.join(', ') }}</p>
+    </div>
+  </div>
+</div>

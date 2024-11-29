@@ -1,0 +1,38 @@
+{
+  "campaigns": [
+    {
+      "id": 1,
+      "name": "Promocja Smartfonów",
+      "keywords": ["elektronika", "telefony"],
+      "bidAmount": 5.50,
+      "campaignFund": 1000,
+      "status": "on",
+      "town": "Warszawa",
+      "radius": 10
+    },
+    {
+      "id": 2,
+      "name": "Wyprzedaż Odzieży",
+      "keywords": ["ubrania", "moda"],
+      "bidAmount": 3.75,
+      "campaignFund": 750,
+      "status": "off",
+      "town": "Kraków",
+      "radius": 15
+    }
+  ],
+  "towns": [
+    "Warszawa",
+    "Kraków",
+    "Wrocław",
+    "Poznań",
+    "Gdańsk"
+  ],
+  "keywords": [
+    "elektronika",
+    "ubrania",
+    "książki",
+    "sport",
+    "zabawki"
+  ]
+}
