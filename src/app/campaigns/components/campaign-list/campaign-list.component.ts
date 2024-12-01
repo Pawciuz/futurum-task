@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Campaign} from "../../types/types";
 import {CampaignsService} from "../../services/campaigns.service";
 import {AsyncPipe, NgForOf, NgIf, NgSwitch, NgSwitchCase} from "@angular/common";
-import {ModalComponent} from "../../../shared/modal/modal.component";
+import {ModalComponent} from "../../../shared/components/modal/modal.component";
 import {FormsModule} from "@angular/forms";
 import {CampaignComponent} from "../campaign/campaign.component";
 import {CampaignFormComponent} from "../campaign-form/campaign-form.component";
 import {Observable} from "rxjs";
 import {AddCampaignComponent} from "../add-campaign/add-campaign.component";
 import {EditCampaignComponent} from "../edit-campaign/edit-campaign.component";
+import {Loader2, LucideAngularModule} from "lucide-angular";
 
 @Component({
   selector: 'app-campaign-list',
@@ -24,21 +25,25 @@ import {EditCampaignComponent} from "../edit-campaign/edit-campaign.component";
     AddCampaignComponent,
     NgSwitch,
     EditCampaignComponent,
-    NgSwitchCase
+    NgSwitchCase,
+    LucideAngularModule
   ],
   templateUrl: './campaign-list.component.html',
   styleUrl: './campaign-list.component.css'
 })
-export class CampaignListComponent {
+export class CampaignListComponent implements OnInit {
+  readonly LoaderIcon = Loader2;
   campaigns$!: Observable<Campaign[]>;
+  isLoading$!: Observable<boolean>;
   showModal = false;
   modalContent: 'edit' | 'add' | 'confirmDelete' | null = null;
   selectedCampaign: Campaign | null = null;
 
   constructor(private campaignService: CampaignsService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.campaigns$ = this.campaignService.getCampaigns();
+    this.isLoading$ = this.campaignService.isCampaignsLoading$;
   }
 
   openAddModal(): void {

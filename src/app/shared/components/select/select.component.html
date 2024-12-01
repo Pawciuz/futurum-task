@@ -1,0 +1,54 @@
+<div class="relative">
+  <div
+    (click)="toggleDropdown()"
+    class="min-h-[42px] p-1 border rounded-md bg-white cursor-pointer flex items-center justify-between"
+    [class.border-blue-500]="isOpen"
+    [class.opacity-50]="isLoading"
+  >
+    <div class="flex-1 px-2">
+      <span *ngIf="selectedItem" class="text-sm">{{ selectedItem }}</span>
+      <span *ngIf="!selectedItem" class="text-gray-400 text-sm">{{ isLoading ? 'Ładowanie...' : placeholder }}</span>
+    </div>
+    <div class="flex items-center">
+      <lucide-icon
+        [img]="ChevronDownIcon"
+        class="w-5 h-5 text-gray-400"
+        [class.transform]="isOpen"
+        [class.rotate-180]="isOpen"
+      ></lucide-icon>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isOpen && !isLoading"
+    class="absolute left-0 right-0 top-full mt-1 border rounded-md bg-white shadow-lg z-10 max-h-60 overflow-y-auto"
+  >
+    <input
+      type="text"
+      [placeholder]="'Szukaj...'"
+      [(ngModel)]="searchText"
+      (input)="onSearch()"
+      class="w-full outline-none border-b p-2 text-sm"
+      (click)="$event.stopPropagation()"
+      [disabled]="isLoading"
+    >
+    <div
+      *ngFor="let option of filteredOptions"
+      (click)="selectOption(option)"
+      class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between text-sm"
+    >
+      {{ option }}
+      <lucide-icon
+        *ngIf="option === selectedItem"
+        [img]="CheckIcon"
+        class="w-4 h-4 text-blue-500"
+      ></lucide-icon>
+    </div>
+    <div
+      *ngIf="filteredOptions.length === 0"
+      class="px-3 py-2 text-gray-500 text-sm"
+    >
+      Brak wyników
+    </div>
+  </div>
+</div>

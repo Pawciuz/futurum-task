@@ -8,14 +8,26 @@
     Dodaj kampanię
   </button>
 
-  <div *ngIf="campaigns$ | async as campaigns" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <app-campaign
-      *ngFor="let campaign of campaigns"
-      [campaign]="campaign"
-      (onEdit)="openEditModal($event)"
-      (onDelete)="openDeleteConfirmation($event)"
-    ></app-campaign>
-  </div>
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <app-campaign
+        *ngFor="let campaign of campaigns$ | async"
+        [campaign]="campaign"
+        (onEdit)="openEditModal($event)"
+        (onDelete)="openDeleteConfirmation($event)"
+      ></app-campaign>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="flex justify-center items-center h-32">
+      <lucide-icon
+        [img]="LoaderIcon"
+        class="animate-spin text-green-600"
+        size="32"
+      ></lucide-icon>
+    </div>
+  </ng-template>
   <app-modal *ngIf="showModal" (close)="closeModal()">
     <ng-container [ngSwitch]="modalContent">
       <app-add-campaign
