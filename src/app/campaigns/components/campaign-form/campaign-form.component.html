@@ -59,7 +59,7 @@
     <label class="block">
       <span class="text-gray-700">Status</span>
       <app-select
-        [options]="['on', 'off']"
+        [options]="statusOptions"
         formControlName="status"
         placeholder="Wybierz status..."
         [loading]="false"
@@ -77,11 +77,11 @@
     <label class="block">
       <span class="text-gray-700">Miasto</span>
       <app-select
-        [options]="towns"
+        [options]="townOptions"
         formControlName="town"
         placeholder="Wybierz miasto..."
-        [loading]="(isTownsLoading$ | async) ?? false"
-      ></app-select>
+        [loading]="(isTownsLoading$ | async) ?? false">
+      </app-select>
       <div
         *ngIf="campaignForm.get('town')?.invalid && campaignForm.get('town')?.touched"
         class="text-red-500 text-sm"
@@ -114,7 +114,7 @@
     <button
       type="submit"
       [disabled]="campaignForm.invalid || campaignForm.untouched"
-      [ngClass]="{ 'bg-blue-300': campaignForm.invalid || campaignForm.untouched, 'bg-blue-600': !campaignForm.invalid }"
+      [ngClass]="{ 'bg-blue-300': campaignForm.invalid || campaignForm.untouched, 'bg-blue-600': !(campaignForm.invalid || campaignForm.untouched) }"
       class="bg-blue-600 text-white px-4 py-2 rounded "
     >
       Zapisz

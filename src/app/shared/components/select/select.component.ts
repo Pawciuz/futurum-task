@@ -1,9 +1,9 @@
-import {Component, ElementRef, forwardRef, HostListener, Input, SimpleChanges} from '@angular/core';
+import {Component, ElementRef, forwardRef, HostListener, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Check, ChevronDown, LucideAngularModule} from "lucide-angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
 
-interface SelectOption {
+export interface SelectOption {
   label: string;
   value: string;
 }
@@ -27,8 +27,8 @@ interface SelectOption {
     }
   ],
 })
-export class SelectComponent {
-  @Input() options: string[] = [];
+export class SelectComponent implements OnChanges{
+  @Input() options: SelectOption[] = [];
   @Input() placeholder = 'Wybierz opcję...';
   @Input() set loading(value: boolean) {
     this.isLoading = value;
@@ -43,9 +43,10 @@ export class SelectComponent {
   isOpen = false;
   isLoading = false;
   searchText = '';
-  selectedItem: string | null = null;
-  filteredOptions: string[] = [];
+  selectedItem: SelectOption | null = null;
+  filteredOptions: SelectOption[] = [];
   disabled = false;
+  private initialValue: string | null = null;
 
   onChange = (_: any) => {};
   onTouched = () => {};
@@ -60,8 +61,16 @@ export class SelectComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['options']) {
+    if (changes['options'] && this.options) {
       this.filteredOptions = [...this.options];
+
+      // Jeśli mamy zapisaną wartość początkową, znajdź odpowiednią opcję
+      if (this.initialValue) {
+        const foundOption = this.options.find(option => option.value === this.initialValue);
+        if (foundOption) {
+          this.selectedItem = foundOption;
+        }
+      }
     }
   }
 
@@ -78,24 +87,33 @@ export class SelectComponent {
   onSearch() {
     if (this.searchText) {
       this.filteredOptions = this.options.filter(option =>
-        option.toLowerCase().includes(this.searchText.toLowerCase())
+        option.label.toLowerCase().includes(this.searchText.toLowerCase())
       );
     } else {
       this.filteredOptions = [...this.options];
     }
   }
 
-  selectOption(option: string) {
+  selectOption(option: SelectOption) {
     if (this.isLoading) return;
 
     this.selectedItem = option;
     this.isOpen = false;
-    this.onChange(option);
+    this.onChange(option.value);
     this.onTouched();
   }
 
-  writeValue(value: string): void {
-    this.selectedItem = value;
+  writeValue(value: string | null): void {
+    this.initialValue = value;
+    if (!value) {
+      this.selectedItem = null;
+      return;
+    }
+
+    const foundOption = this.options.find(option => option.value === value);
+    if (foundOption) {
+      this.selectedItem = foundOption;
+    }
   }
 
   registerOnChange(fn: any): void {

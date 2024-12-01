@@ -1,4 +1,4 @@
-<div class="relative">
+<div class="relative" #container>
   <div
     (click)="toggleDropdown()"
     class="min-h-[42px] p-1 border rounded-md bg-white cursor-pointer flex items-center justify-between"
@@ -6,7 +6,7 @@
     [class.opacity-50]="isLoading"
   >
     <div class="flex-1 px-2">
-      <span *ngIf="selectedItem" class="text-sm">{{ selectedItem }}</span>
+      <span *ngIf="selectedItem" class="text-sm">{{ selectedItem.label }}</span>
       <span *ngIf="!selectedItem" class="text-gray-400 text-sm">{{ isLoading ? 'Ładowanie...' : placeholder }}</span>
     </div>
     <div class="flex items-center">
@@ -24,6 +24,7 @@
     class="absolute left-0 right-0 top-full mt-1 border rounded-md bg-white shadow-lg z-10 max-h-60 overflow-y-auto"
   >
     <input
+      #searchInput
       type="text"
       [placeholder]="'Szukaj...'"
       [(ngModel)]="searchText"
@@ -37,9 +38,9 @@
       (click)="selectOption(option)"
       class="px-3 py-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between text-sm"
     >
-      {{ option }}
+      {{ option.label }}
       <lucide-icon
-        *ngIf="option === selectedItem"
+        *ngIf="option.value === selectedItem?.value"
         [img]="CheckIcon"
         class="w-4 h-4 text-blue-500"
       ></lucide-icon>

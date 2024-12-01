@@ -40,12 +40,17 @@ export class CampaignFormComponent implements OnInit{
   isKeywordsLoading$: Observable<boolean>;
 
   readonly LoaderIcon = Loader2;
+
   towns: string[] = [];
   keywords: string[] = [];
-
+  statusOptions: SelectOption[] = [
+    {label: 'Aktywny', value: 'on'},
+    {label: 'Nieaktywny', value: 'off'}
+  ];
   campaignForm!: FormGroup;
+
   get townOptions() {
-    return this.towns.map(town => ({ label: town, value: town }));
+    return this.transformTowns(this.towns);
   }
 
   constructor(private fb: FormBuilder,private campaignsService: CampaignsService) {
@@ -54,6 +59,7 @@ export class CampaignFormComponent implements OnInit{
   }
 
   ngOnInit() {
+
     this.campaignsService.getTowns().subscribe(
       towns => {
         this.towns = towns;
@@ -71,10 +77,17 @@ export class CampaignFormComponent implements OnInit{
       keywords: [this.campaign?.keywords || '', Validators.required],
       bidAmount: [this.campaign?.bidAmount || 0, [Validators.required, Validators.min(0.01)]],
       campaignFund: [this.campaign?.campaignFund || 0, [Validators.required, Validators.min(0.01)]],
-      status: ['on', Validators.required],
+      status: [this.campaign?.status || "on", Validators.required],
       town: [this.campaign?.town || '', Validators.required],
       radius: [this.campaign?.radius || 0, [Validators.required, Validators.min(1)]],
     });
+    console.log(this.campaignForm.untouched);
+  }
+  transformTowns(towns: string[]): SelectOption[] {
+    return towns.map(town => ({
+      label: town,
+      value: town
+    }));
   }
 
   onSubmit(event:SubmitEvent) {
