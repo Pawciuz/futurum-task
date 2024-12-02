@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditCampaignComponent } from './edit-campaign.component';
+import { SelectComponent } from './select.component';
 
-describe('EditCampaignComponent', () => {
-  let component: EditCampaignComponent;
-  let fixture: ComponentFixture<EditCampaignComponent>;
+describe('SelectComponent', () => {
+  let component: SelectComponent;
+  let fixture: ComponentFixture<SelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditCampaignComponent]
+      imports: [SelectComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EditCampaignComponent);
+    fixture = TestBed.createComponent(SelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

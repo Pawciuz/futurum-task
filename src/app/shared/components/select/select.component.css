@@ -1,0 +1,6 @@
+:host {
+  display: block;
+}
+select:disabled {
+  background-color: white;
+}

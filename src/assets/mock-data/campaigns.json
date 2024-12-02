@@ -20,19 +20,5 @@
       "town": "Kraków",
       "radius": 15
     }
-  ],
-  "towns": [
-    "Warszawa",
-    "Kraków",
-    "Wrocław",
-    "Poznań",
-    "Gdańsk"
-  ],
-  "keywords": [
-    "elektronika",
-    "ubrania",
-    "książki",
-    "sport",
-    "zabawki"
   ]
 }
