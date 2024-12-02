@@ -24,7 +24,7 @@ import {FormsModule, NG_VALUE_ACCESSOR} from "@angular/forms";
 })
 export class ComboboxComponent {
   @Input() options: string[] = [];
-  @Input() placeholder = 'Wybierz opcje...';
+  @Input() placeholder = 'Choose option...';
   @Input() set loading(value: boolean) {
     this.isLoading = value;
     if (value) {

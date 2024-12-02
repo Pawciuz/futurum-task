@@ -3,9 +3,9 @@
     {{ label }}
   </label>
   <input
-    type="text"
+    [type]="type"
     [(ngModel)]="value"
-    (input)="onValueChange(value)"
+    (ngModelChange)="handleInput($event)"
     (blur)="onTouched()"
     [placeholder]="placeholder"
     [disabled]="isLoading || disabled"

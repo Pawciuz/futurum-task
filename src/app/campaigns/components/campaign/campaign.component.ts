@@ -1,13 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Campaign} from "../../types/types";
-import {NgClass, NgIf} from "@angular/common";
+import {CurrencyPipe, NgClass, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-campaign',
   standalone: true,
   imports: [
     NgIf,
-    NgClass
+    NgClass,
+    CurrencyPipe
   ],
   templateUrl: './campaign.component.html',
   styleUrl: './campaign.component.css'

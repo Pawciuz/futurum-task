@@ -3,6 +3,7 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor, FormsModule} from '@angular/for
 import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { NgIf } from '@angular/common';
 
+type InputType = 'text' | 'number';
 @Component({
   selector: 'app-input',
   standalone: true,
@@ -18,13 +19,14 @@ import { NgIf } from '@angular/common';
   ],
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() placeholder = 'Wpisz wartość...';
+  @Input() placeholder = 'Enter value...';
   @Input() label?: string;
+  @Input() type: InputType = 'text';
   @Input() loading = false;
   @Input() disabled = false;
   @Input() errorMessage?: string;
 
-  value = '';
+  value: string | number = '';
   private onChange = (value: any) => {};
   protected onTouched = () => {};
 
@@ -38,13 +40,19 @@ export class InputComponent implements ControlValueAccessor {
     return !!this.errorMessage;
   }
 
-  onValueChange(value: string): void {
-    this.value = value;
-    this.onChange(value);
+  handleInput(value: any): void {
+    if (this.type === 'number') {
+      const numValue = value === '' ? '' : Number(value);
+      this.value = numValue;
+      this.onChange(numValue);
+    } else {
+      this.value = value;
+      this.onChange(value);
+    }
   }
 
-  writeValue(value: string): void {
-    this.value = value || '';
+  writeValue(value: any): void {
+    this.value = value ?? '';
   }
 
   registerOnChange(fn: any): void {

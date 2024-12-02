@@ -1,24 +1,25 @@
 <form [formGroup]="campaignForm" (ngSubmit)="onSubmit($event)" class="space-y-4">
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Nazwa</span>
+      <span class="text-gray-700">Name</span>
       <app-input
         formControlName="name"
-        placeholder="Podaj nazwę kampanii..."
+        type="text"
+        placeholder="Enter campaign name..."
         [loading]="false"
-        [errorMessage]="campaignForm.get('name')?.touched && campaignForm.get('name')?.invalid ? 'Nazwa kampanii jest wymagana' : undefined"
+        [errorMessage]="campaignForm.get('name')?.touched && campaignForm.get('name')?.invalid ? 'Campaign name is required.' : undefined"
       ></app-input>
     </label>
   </div>
 
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Słowa kluczowe</span>
+      <span class="text-gray-700">Keywords</span>
       <div class="relative">
         <app-combobox
           [options]="keywords"
           formControlName="keywords"
-          placeholder="Wybierz słowa kluczowe..."
+          placeholder="Choose keywords..."
           [loading]="(isKeywordsLoading$ | async) ?? false"
         ></app-combobox>
       </div>
@@ -26,34 +27,46 @@
         *ngIf="campaignForm.get('keywords')?.invalid && campaignForm.get('keywords')?.touched"
         class="text-red-500 text-sm"
       >
-        Podaj co najmniej jedno słowo kluczowe
+        Give at least one keyword
       </div>
     </label>
   </div>
 
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Kwota oferty</span>
+      <span class="text-gray-700">Bid amount</span>
       <app-input
         formControlName="bidAmount"
-        placeholder="Podaj kwotę oferty"
+        type="number"
+        placeholder="Enter bid amount..."
         [loading]="false"
-        [errorMessage]="campaignForm.get('bidAmount')?.touched && campaignForm.get('bidAmount')?.invalid ? 'Kwota oferty musi być większa od zera' : undefined"
+        [errorMessage]="campaignForm.get('bidAmount')?.touched && campaignForm.get('bidAmount')?.invalid ? 'Bid amount must be greater than zero' : undefined"
       ></app-input>
     </label>
   </div>
 
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Budżet</span>
-      <app-input
-        formControlName="campaignFund"
-        placeholder="Podaj budżet"
-        [loading]="false"
-        [errorMessage]="campaignForm.get('campaignFund')?.touched && campaignForm.get('campaignFund')?.invalid ? 'Budżet musi być większy od zera' : undefined"
-      ></app-input>
+      <span class="text-gray-700">Campaign fund</span>
+      <div class="relative">
+        <app-input
+          formControlName="campaignFund"
+          type="number"
+          placeholder="Enter campaign fund..."
+          [loading]="false"
+          [errorMessage]="campaignForm.get('campaignFund')?.touched && campaignForm.get('campaignFund')?.invalid ? 'Budżet musi być większy od zera' : undefined"
+        ></app-input>
+        <div class="text-sm text-gray-600 mt-1">
+          Remaining fund:
+          <span *ngIf="availableFundAfterCampaign$ | async as availableFund"
+                [ngClass]="{ 'text-red-500': availableFund < 0, 'text-green-500': availableFund >= 0 }">
+          {{ availableFund | currency:'USD':'symbol':'1.0-0' }}
+        </span>
+        </div>
+      </div>
     </label>
   </div>
+
 
   <div class="form-group">
     <label class="block">
@@ -61,44 +74,45 @@
       <app-select
         [options]="statusOptions"
         formControlName="status"
-        placeholder="Wybierz status..."
+        placeholder="Choose status..."
         [loading]="false"
       ></app-select>
       <div
         *ngIf="campaignForm.get('status')?.invalid && campaignForm.get('status')?.touched"
         class="text-red-500 text-sm"
       >
-        Wybierz status kampanii
+        Choose status
       </div>
     </label>
   </div>
 
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Miasto</span>
+      <span class="text-gray-700">Town</span>
       <app-select
-        [options]="townOptions"
+        [options]="towns"
         formControlName="town"
-        placeholder="Wybierz miasto..."
+        placeholder="Choose town..."
         [loading]="(isTownsLoading$ | async) ?? false">
       </app-select>
       <div
         *ngIf="campaignForm.get('town')?.invalid && campaignForm.get('town')?.touched"
         class="text-red-500 text-sm"
       >
-        Wybierz miasto
+        Choose town
       </div>
     </label>
   </div>
 
   <div class="form-group">
     <label class="block">
-      <span class="text-gray-700">Promień (km)</span>
+      <span class="text-gray-700">Radius (km)</span>
       <app-input
         formControlName="radius"
-        placeholder="Podaj promień"
+        placeholder="Enter radius..."
+        type="number"
         [loading]="false"
-        [errorMessage]="campaignForm.get('radius')?.touched && campaignForm.get('radius')?.invalid ? 'Promień musi być większy od zera' : undefined"
+        [errorMessage]="campaignForm.get('radius')?.touched && campaignForm.get('radius')?.invalid ? 'Radius must be greater than zero' : undefined"
       ></app-input>
     </label>
   </div>
@@ -109,15 +123,15 @@
       class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
       (click)="cancel.emit()"
     >
-      Anuluj
+      Cancel
     </button>
     <button
       type="submit"
-      [disabled]="campaignForm.invalid || campaignForm.untouched"
+      [disabled]="(campaignForm.invalid && disabled)"
       [ngClass]="{ 'bg-blue-300': campaignForm.invalid || campaignForm.untouched, 'bg-blue-600': !(campaignForm.invalid || campaignForm.untouched) }"
       class="bg-blue-600 text-white px-4 py-2 rounded "
     >
-      Zapisz
+      Save
     </button>
   </div>
 </form>

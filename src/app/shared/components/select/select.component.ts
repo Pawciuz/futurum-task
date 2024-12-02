@@ -63,8 +63,7 @@ export class SelectComponent implements OnChanges{
   ngOnChanges(changes: SimpleChanges) {
     if (changes['options'] && this.options) {
       this.filteredOptions = [...this.options];
-
-      // Jeśli mamy zapisaną wartość początkową, znajdź odpowiednią opcję
+      
       if (this.initialValue) {
         const foundOption = this.options.find(option => option.value === this.initialValue);
         if (foundOption) {

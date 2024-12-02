@@ -19,7 +19,7 @@
     <input
       #searchInput
       type="text"
-      [placeholder]="isLoading ? 'Ładowanie...' : (selectedItems.length ? '' : placeholder)"
+      [placeholder]="isLoading ? 'Loading...' : (selectedItems.length ? '' : placeholder)"
       [(ngModel)]="searchText"
       (input)="onSearch()"
       class="flex-1 min-w-[60px] outline-none border-none p-1"
@@ -56,7 +56,7 @@
       *ngIf="filteredOptions.length === 0"
       class="px-3 py-2 text-gray-500"
     >
-      Brak wyników
+      No results
     </div>
   </div>
 </div>

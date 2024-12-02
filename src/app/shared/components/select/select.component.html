@@ -7,7 +7,7 @@
   >
     <div class="flex-1 px-2">
       <span *ngIf="selectedItem" class="text-sm">{{ selectedItem.label }}</span>
-      <span *ngIf="!selectedItem" class="text-gray-400 text-sm">{{ isLoading ? 'Ładowanie...' : placeholder }}</span>
+      <span *ngIf="!selectedItem" class="text-gray-400 text-sm">{{ isLoading ? 'Loading...' : placeholder }}</span>
     </div>
     <div class="flex items-center">
       <lucide-icon
@@ -26,7 +26,7 @@
     <input
       #searchInput
       type="text"
-      [placeholder]="'Szukaj...'"
+      [placeholder]="'Search...'"
       [(ngModel)]="searchText"
       (input)="onSearch()"
       class="w-full outline-none border-b p-2 text-sm"
@@ -49,7 +49,7 @@
       *ngIf="filteredOptions.length === 0"
       class="px-3 py-2 text-gray-500 text-sm"
     >
-      Brak wyników
+      No results
     </div>
   </div>
 </div>
