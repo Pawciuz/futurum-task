@@ -54,7 +54,7 @@
           type="number"
           placeholder="Enter campaign fund..."
           [loading]="false"
-          [errorMessage]="campaignForm.get('campaignFund')?.touched && campaignForm.get('campaignFund')?.invalid ? 'Budżet musi być większy od zera' : undefined"
+          [errorMessage]="campaignForm.get('campaignFund')?.touched && campaignForm.get('campaignFund')?.invalid ? 'Campaign fund must be greater than zero' : undefined"
         ></app-input>
         <div class="text-sm text-gray-600 mt-1">
           Remaining fund:
